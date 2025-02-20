@@ -1,0 +1,42 @@
+model:
+  model: Qwen/Qwen2.5-0.5B
+  #model: llm-jp/llm-jp-3-1.8b
+  tokenizer: Qwen/Qwen2.5-0.5B
+  #tokenizer: llm-jp/llm-jp-3-1.8b
+  use_cache: False
+  max_length: 256
+
+
+train: # huggingfaceのTrainingArgumentsで利用
+  output_dir: ../outputs
+  evaluation_strategy: steps
+  logging_strategy: steps
+  save_strategy: steps
+  learning_rate: 1e-6
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 8
+  gradient_checkpointing: True
+  weight_decay: 0.01 # 適当
+  warmup_ratio: 0.1 # 適当
+  optim: adamw_torch # 適当
+  fp16: True
+  bf16: False
+  dataloader_num_workers: 2
+  eval_steps: 200
+  save_steps: 200
+  logging_steps: 50
+  run_name: test # wandbのプロジェクト名
+  save_total_limit: 1
+  save_on_each_node: False
+  neftune_noise_alpha: 5 # NEFTTune　適当
+  deepspeed: ./configs/deepspeed/ds_config_zero4.json
+  report_to: wandb
+  
+seed: 42
+
+dataset:
+  path: ./data/train-00000-of-00034_1.parquet  # parquetファイルへのパス
+  subset: chunked  # 既存の設定を維持
+  split: train
