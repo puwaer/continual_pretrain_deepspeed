@@ -37,6 +37,6 @@ train: # huggingfaceのTrainingArgumentsで利用
 seed: 42
 
 dataset:
-  path: ./data/test/etc_text.json  # jsonファイルへのパス
+  path: ./data/test_data.json  # jsonファイルへのパス
   subset: chunked                     # 既存の設定を維持
   split: train
